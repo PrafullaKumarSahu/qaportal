@@ -19,7 +19,7 @@
 		        		    	<td>{{$exam->id}}</td>
 		        		    	<td>{{$exam->title}}</td>
 		        		    	<!-- Need to update URLs -->
-		        		    	<td><a href="/exams/{{$exam->id}}">Manage</a></td>
+		        		    	<td><a href="/exams/{{$exam->id}}/questions">Manage</a></td>
 		        		    	<td><a href="/exams/{{$exam->id}}">Delete</a></td>
 		        		    </tr>
 		        		@endforeach
