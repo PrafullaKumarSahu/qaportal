@@ -17,7 +17,7 @@ class QuestionController extends Controller
 
     public function index($exam_id)
     {
-    	$questions = Question::all();
+    	$questions = Question::paginate(5);
     	return view('questions.index')->with(['questions' => $questions, 'exam_id' => $exam_id]);
     }
 
@@ -36,5 +36,25 @@ class QuestionController extends Controller
     	]);
 
     	return redirect('/exams/' . $exam_id . '/questions');
+    }
+
+    public function show($exam_id, $question_id){
+    	$exam = Exam::find($exam_id);
+    	$question = Question::find($question_id);
+
+    	// get previous question id
+	    $previous = Question::where('id', '<', $question->id)->max('id');
+
+	    // get next question id
+	    $next = Question::where('id', '>', $question->id)->min('id');
+
+    	return view('questions.show', compact(['question', 'exam']))->with('previous', $previous)->with('next', $next);;
+    }
+
+    public function edit(Question $question){
+    	//
+    }
+    public function update(Question $question){
+    	//
     }
 }

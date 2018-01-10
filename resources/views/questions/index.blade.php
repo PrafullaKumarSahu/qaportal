@@ -6,7 +6,7 @@
     	<div class="col-8 main">
     		<h1><a href="/exams/{{$exam_id}}/questions/create">Create a new Question</a></h1>
     		@if (count($questions))
-    		    <table class="table">
+    		    <table class="table table-bordered table-hover">
     		    	<thead>
     		    		<th>ID</th>
     		    		<th>Descripion</th>
@@ -18,7 +18,7 @@
     		    		@foreach ( $questions as $question )
 	    		    		<tr>
 	    		    			<td>{{ $question->id }}</td>
-	    		    			<td>{{ $question->description }}</td>
+	    		    			<td><a href="/exams/{{$exam_id}}/questions/{{$question->id}}">{{ $question->description }}</a></td>
 	    		    			<td><a href="#">Answers</a></td>
 	    		    			<td><a href="#">Manage</a></td>
 	    		    			<td><a href="#">Delete</a></td>
@@ -27,6 +27,7 @@
     		    		
     		    	</tbody>
     		    </table>
+    		    <nav aria-label="navigation">{{ $questions->links() }}</nav>
     		@endif
     	</div>
     	<div class="col-4">
