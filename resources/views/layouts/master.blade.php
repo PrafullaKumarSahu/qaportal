@@ -4,9 +4,18 @@
 <head>
 	<title>My APP</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+	<!-- Take this style to assets -->
+	<style type="text/css">
+		li.dropdown.nav-item {
+		    padding-top: 2px;
+		}
+	</style>
 </head>
 <body>
 	<div class="container">
+		@auth
+			@include('layouts.menu')
+		@endauth
 		@yield('content')
 	</div>
 

@@ -15,6 +15,7 @@
 </head>
 <body>
     <div id="app">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
                 <div class="navbar-header">
@@ -36,7 +37,7 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        &nbsp;
+                       <li><a class="nav-link" href="{{URL::to('exams')}}">Exams</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -70,7 +71,6 @@
                 </div>
             </div>
         </nav>
-
         @yield('content')
     </div>
 

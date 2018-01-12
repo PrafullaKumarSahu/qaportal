@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 
 use App\Exam;
 use App\Question;
@@ -17,27 +17,33 @@ class QuestionController extends Controller
 
     public function index($exam_id)
     {
-        if( request()->user()->authorizeRoles(['admin'])){
-            $questions = Question::all();
-        } else {
-            $questions = Question::all()->random(5);
+        if (Auth::check()) {
+        
+            if( request()->user()->hasRole('admin') ){
+                $questions = Question::all();
+                $questions = Question::paginate(5);
+                return view('questions.index')->with(['questions' => $questions, 'exam_id' => $exam_id]);    
+            } else {
+                $questions = request()->session()->get('questions');
+                if ( empty($questions) ){
+                   $questions = Question::all()->random(20);
+                   request()->session()->put('questions', $questions);
+                }
+                return view('students/questions/index')->with(['questions' => $questions, 'exam_id' => $exam_id]); 
+            }
         }
         
-        //dd($questions);
-       // return view('questions.index');
-    	$questions = Question::paginate(5);
-    	return view('questions.index')->with(['questions' => $questions, 'exam_id' => $exam_id]);
     }
 
     public function create($exam_id){
-        if( !request()->user()->authorizeRoles(['admin'])){
+        if( !request()->user()->hasRole('admin')){
             return redirect('/exams');
         }
     	return view('questions.create')->with('exam_id', $exam_id);
     }
 
     public function store($exam_id){
-        if ( !request()->user()->authorizeRoles(['admin']) ){
+        if ( !request()->user()->hasRole('admin') ){
             //Todo
             //Add flash message here
             //and display in view
@@ -70,11 +76,11 @@ class QuestionController extends Controller
     }
 
     public function edit(Question $question){
-        request()->user()->authorizeRoles(['admin']);
+        request()->user()->hasRole('admin');
     	//
     }
     public function update(Question $question){
-        request()->user()->authorizeRoles(['admin']);
+        request()->user()->hasRole('admin');
     	//
     }
 }

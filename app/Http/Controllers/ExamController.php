@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 use App\Exam;
 
 class ExamController extends Controller
@@ -14,7 +14,7 @@ class ExamController extends Controller
 	}
 
     public function create(){
-        if (!request()->user()->authorizeRoles(['admin'])){
+        if (!request()->user()->hasRole('admin')){
             //Todo
             //Add flash message here and displa in view
             return redirect('/exams');
@@ -24,7 +24,11 @@ class ExamController extends Controller
 
     public function index(){
     	$exams = Exam::all();
-    	return view('exams.index')->with('exams', $exams);
+        if (request()->user()->hasRole('admin')){
+        	return view('exams.index')->with('exams', $exams);
+        } else {
+            return view('students/exams/index')->with('exams', $exams);
+        }
         //return $exams;
     }
 
@@ -33,7 +37,7 @@ class ExamController extends Controller
     }
 
     public function store(){
-        if (!request()->user()->authorizeRoles(['admin'])){
+        if (!request()->user()->hasRole('admin')){
             //Todo
             //Add flash message here and displa in view
             return redirect('/exams');
