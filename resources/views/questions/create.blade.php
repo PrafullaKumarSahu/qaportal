@@ -6,8 +6,8 @@
     	<div class="col-8 main">
     		<h1>Create a new Question</h1>
 		    <form method="POST" action="/exams/{{$exam_id}}/questions">
-
 		    	{{ csrf_field() }}
+                <input type="hidden" name="_token" value="{{ Session::token() }}">
 			    <div class="form-group">
 			      <input type="text" class="form-control" name="description" placeholder="Question">
 			    </div>

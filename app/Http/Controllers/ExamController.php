@@ -14,6 +14,11 @@ class ExamController extends Controller
 	}
 
     public function create(){
+        if (!request()->user()->authorizeRoles(['admin'])){
+            //Todo
+            //Add flash message here and displa in view
+            return redirect('/exams');
+        }
     	return view('exams.create');
     }
 
@@ -28,6 +33,11 @@ class ExamController extends Controller
     }
 
     public function store(){
+        if (!request()->user()->authorizeRoles(['admin'])){
+            //Todo
+            //Add flash message here and displa in view
+            return redirect('/exams');
+        }
     	$this->validate(request(), [
     		'title' => 'required|min:3|max:20',
     		'description' => 'required|max:250'

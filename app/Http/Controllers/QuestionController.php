@@ -17,15 +17,33 @@ class QuestionController extends Controller
 
     public function index($exam_id)
     {
+        if( request()->user()->authorizeRoles(['admin'])){
+            $questions = Question::all();
+        } else {
+            $questions = Question::all()->random(5);
+        }
+        
+        //dd($questions);
+       // return view('questions.index');
     	$questions = Question::paginate(5);
     	return view('questions.index')->with(['questions' => $questions, 'exam_id' => $exam_id]);
     }
 
     public function create($exam_id){
+        if( !request()->user()->authorizeRoles(['admin'])){
+            return redirect('/exams');
+        }
     	return view('questions.create')->with('exam_id', $exam_id);
     }
 
     public function store($exam_id){
+        if ( !request()->user()->authorizeRoles(['admin']) ){
+            //Todo
+            //Add flash message here
+            //and display in view
+            return redirect('/exams');
+        }
+
     	$this->validate(request(), [
     		'description' => 'required|min:10|max:500',
     	]);
@@ -52,9 +70,11 @@ class QuestionController extends Controller
     }
 
     public function edit(Question $question){
+        request()->user()->authorizeRoles(['admin']);
     	//
     }
     public function update(Question $question){
+        request()->user()->authorizeRoles(['admin']);
     	//
     }
 }
