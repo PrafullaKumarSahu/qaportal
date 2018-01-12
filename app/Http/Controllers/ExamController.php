@@ -33,7 +33,13 @@ class ExamController extends Controller
     }
 
     public function show(Exam $exam){
-    	return view('exams.show', compact('exam'));
+        
+        $questions = request()->session()->get('questions');
+        if ( empty($questions) ){
+           $questions = $exam->questions()->get()->random(20);
+           request()->session()->put('questions', $questions);
+        }
+    	return view('students/exams.show', compact(['exam', 'questions']));
     }
 
     public function store(){

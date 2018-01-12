@@ -43,6 +43,7 @@ class QuestionController extends Controller
     }
 
     public function store($exam_id){
+        //dd(request());
         if ( !request()->user()->hasRole('admin') ){
             //Todo
             //Add flash message here
@@ -54,10 +55,28 @@ class QuestionController extends Controller
     		'description' => 'required|min:10|max:500',
     	]);
     	
-    	Question::create([
+    	$question = Question::create([
     		'description' => request('description'),
     		'exam_id' => $exam_id
     	]);
+
+        $options = request(['option_1', 'option_2', 'option_3', 'option_4']);
+
+        foreach ($options as $key => $option) {
+            $flag = 0;
+
+            if ($key == request('answer')){
+                $flag = 1;
+            }
+            
+            //flag is not getting updated
+            $question->answers()->createMany([
+                [
+                    'description' => $option,
+                    'flag' => $flag
+                ]
+            ]);
+        }
 
     	return redirect('/exams/' . $exam_id . '/questions');
     }
@@ -72,7 +91,14 @@ class QuestionController extends Controller
 	    // get next question id
 	    $next = Question::where('id', '>', $question->id)->min('id');
 
-    	return view('questions.show', compact(['question', 'exam']))->with('previous', $previous)->with('next', $next);;
+        $options = $question->answers()->get();
+        if ( request()->user()->hasRole('admin') ){
+    	    return view('questions.show', compact(['question', 'exam', 'options']))->with('previous', $previous)->with('next', $next);;
+        } else {
+            return view('students/questions.show', compact(['question', 'exam', 'options']))->with('previous', $previous)->with('next', $next);;    
+        }
+
+        
     }
 
     public function edit(Question $question){

@@ -4,7 +4,7 @@
 @section ('content')
     <div class="row">
     	<div class="col-8 main">
-    		<h1>Exams</h1>
+    		<h3>Recommended Exams For You.</h3>
 		    @if ($exams)
 		       <!--  <select class="custom-select">
 		        	<option>Select an Exam</option>

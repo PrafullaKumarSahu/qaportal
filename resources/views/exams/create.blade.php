@@ -4,7 +4,7 @@
 @section ('content')
     <div class="row">
     	<div class="col-8 main">
-    		<h1>Create a new Exam</h1>
+    		<h4>Create a new Exam</h4>
 		    <form method="POST" action="/exams">
 		    	{{ csrf_field() }}
 			    <div class="form-group">

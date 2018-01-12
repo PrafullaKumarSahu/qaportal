@@ -5,11 +5,12 @@
     <div class="row">
         <div class="col-8 main">
             @if (count($questions))
-                <ol>
+                <button class="btn btn-primary"><a href="exams/{{exam_id}}/questions/{{$questions->first()->id}}"> Start</a></button>
+                <!-- <ol>
                     @foreach ( $questions as $question )
-                        <li><a href="/exams/{{$exam_id}}/questions/{{$question->id}}">{{ $question->description }}</a></li>
+                        <li>{{ $question->description }}</li>
                     @endforeach
-                </ol>
+                </ol> -->
             @endif
         </div>
         <div class="col-4">

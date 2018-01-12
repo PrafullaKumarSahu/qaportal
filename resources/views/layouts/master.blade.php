@@ -4,10 +4,32 @@
 <head>
 	<title>My APP</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+	<script src="https://use.fontawesome.com/186d4abcb8.js"></script>
 	<!-- Take this style to assets -->
 	<style type="text/css">
 		li.dropdown.nav-item {
 		    padding-top: 2px;
+		}
+		.btn a, .btn a:hover, .btn a:focus, .btn a:visited{
+			color: #FFFFFF;
+			text-decoration: none;
+		}
+		.delete-icon{
+			color: #d9534f;
+		}
+		.option-label {
+		    display: inline-block;
+		}
+		.edit-icon{
+			color: #0275d8;
+		}
+		.btn{
+			margin: 5px;
+		}
+		.pagination li {
+		    padding: 0 5px;
+		    border: 1px solid #ddd;
+		    margin: 5px;
 		}
 	</style>
 </head>
