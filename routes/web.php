@@ -24,7 +24,7 @@ Route::get('/exams/create', 'ExamController@create');
 Route::post('/exams', 'ExamController@store');
 Route::get('/exams/{exam}', 'ExamController@show');
 Route::get('/exams/{exam}/edit', 'ExamController@edit');
-Route::patch('/exams/{exam}', 'ExamController@update');
+Route::patch('/exams/{exam}/update', 'ExamController@update');
 Route::put('/exams', 'ExamController@delete');
 
 Route::get('/exams/{exam}/questions', 'QuestionController@index');
@@ -34,3 +34,5 @@ Route::get('/exams/{exam}/questions/{question}', 'QuestionController@show');
 Route::get('/exams/{exam}/questions/{question}/edit', 'QuestionController@edit');
 Route::patch('/exams/{exam}/questions/{question}', 'QuestionController@update');
 Route::put('/exams/{exam}/questions/{question}', 'QuestionController@delete');
+
+Route::post('/exams/{exam}/questions/{question}/answers', 'AnswerController@store');

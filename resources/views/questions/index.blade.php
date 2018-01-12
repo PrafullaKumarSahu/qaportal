@@ -5,7 +5,7 @@
     <div class="row">
     	<div class="col-8 main">
     		<h4>Questions</h4>
-            <button type="button" class="btn btn-primary create"><a href="/exams/{{$exam_id}}/questions/create">Create a new Question</a></button>
+            <button type="button" class="btn btn-primary create"><a href="/exams/{{$exam->id}}/questions/create">Create a new Question</a></button>
     		@if (count($questions))
     		    <table class="table table-bordered table-hover">
     		    	<thead>
@@ -20,8 +20,8 @@
 	    		    		<tr>
 	    		    			<td>{{ $question->id }}</td>
 	    		    			<td>{{ $question->description }}</td>
-	    		    			<td><a href="/exams/{{$exam_id}}/questions/{{$question->id}}"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
-	    		    			<td><a href="#"><i class="fa fa-pencil edit-icon" aria-hidden="true"></i></a></td>
+	    		    			<td><a href="/exams/{{$exam->id}}/questions/{{$question->id}}"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
+	    		    			<td><a href="/exams/{{$exam->id}}/questions/{{$question->id}}/edit"><i class="fa fa-pencil edit-icon" aria-hidden="true"></i></a></td>
 	    		    			<td><i class="fa fa-times delete-icon" aria-hidden="true"></i></td>
 	    		    		</tr>
     		    		@endforeach

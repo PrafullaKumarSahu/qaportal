@@ -3,6 +3,8 @@
 @section ('content')
     <div class="row">
     	<div class="col-8 main">
+    		<h4>{{ $exam->title }}</h4>
+    		<p>{{ $exam->description }}</p>
     		<button class="btn btn-primary"><a href="{{$exam->id}}/questions/{{$questions->first()->id}}"> Start</a></button>
     	</div>
     	<div class="col-4">

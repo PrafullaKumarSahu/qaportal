@@ -62,4 +62,24 @@ class ExamController extends Controller
 
     	return redirect('/exams');
     }
+
+    public function edit(Exam $exam)
+    {
+        return view('exams.edit', compact('exam'));
+    }
+
+    public function update(Exam $exam)
+    {
+        if (!request()->user()->hasRole('admin')){
+            //Todo
+            //Add flash message here and displa in view
+            return redirect('/exams');
+        }
+        $exam->title = request('title');
+        $exam->description = request('description');
+        $exam->question_counts = request('question_count') == null ? $exam->question_counts : request('question_count');
+        $exam->time = request('time');
+        $exam->save();
+        return redirect()->back();
+    }
 }

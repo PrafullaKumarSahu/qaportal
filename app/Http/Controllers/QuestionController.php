@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use DB;
 use App\Exam;
 use App\Question;
 
@@ -15,21 +16,25 @@ class QuestionController extends Controller
 		$this->middleware('auth')->except(['index', 'show']);
 	}
 
-    public function index($exam_id)
+    //Todo
+    //Use model view bind here
+    public function index(Exam $exam)
     {
+        // $exam = Exam::find($exam_id);
+
         if (Auth::check()) {
         
             if( request()->user()->hasRole('admin') ){
                 $questions = Question::all();
                 $questions = Question::paginate(5);
-                return view('questions.index')->with(['questions' => $questions, 'exam_id' => $exam_id]);    
+                return view('questions.index')->with(['questions' => $questions, 'exam' => $exam]);    
             } else {
                 $questions = request()->session()->get('questions');
                 if ( empty($questions) ){
                    $questions = Question::all()->random(20);
                    request()->session()->put('questions', $questions);
                 }
-                return view('students/questions/index')->with(['questions' => $questions, 'exam_id' => $exam_id]); 
+                return view('students/questions/index')->with(['questions' => $questions, 'exam' => $exam]); 
             }
         }
         
@@ -43,7 +48,6 @@ class QuestionController extends Controller
     }
 
     public function store($exam_id){
-        //dd(request());
         if ( !request()->user()->hasRole('admin') ){
             //Todo
             //Add flash message here
@@ -69,7 +73,6 @@ class QuestionController extends Controller
                 $flag = 1;
             }
             
-            //flag is not getting updated
             $question->answers()->createMany([
                 [
                     'description' => $option,
@@ -92,21 +95,40 @@ class QuestionController extends Controller
 	    $next = Question::where('id', '>', $question->id)->min('id');
 
         $options = $question->answers()->get();
+    
+        $user_answer = DB::table('user_question_answers')->where([
+                    ['exam_id', '=', $exam_id],
+                    ['question_id', '=', $question_id]
+                ])->pluck('answer_id');
+        
+        $user_answer = $user_answer[0];
+       
         if ( request()->user()->hasRole('admin') ){
     	    return view('questions.show', compact(['question', 'exam', 'options']))->with('previous', $previous)->with('next', $next);;
         } else {
-            return view('students/questions.show', compact(['question', 'exam', 'options']))->with('previous', $previous)->with('next', $next);;    
+            return view('students/questions.show', compact(['question', 'exam', 'options', 'user_answer']))->with('previous', $previous)->with('next', $next);    
         }
-
-        
     }
 
-    public function edit(Question $question){
-        request()->user()->hasRole('admin');
-    	//
+    //public function edit(Exam $exam, Question $question){
+    public function edit($question_id, $exam_id){
+        $exam = Exam::find($question_id);
+        $question = Question::find($question_id);
+        $options = $question->answers()->get();
+        //dd($question->description);
+        dd($options);
+
+        if ( request()->user()->hasRole('admin') ){
+            return view('questions.edit', compact(['exam', 'question', 'options']));
+        } else {
+            return redirect('/login');
+        }
     }
     public function update(Question $question){
-        request()->user()->hasRole('admin');
-    	//
+        if ( request()->user()->hasRole('admin') ){
+            //
+        } else {
+            return redirect('/login');
+        }
     }
 }

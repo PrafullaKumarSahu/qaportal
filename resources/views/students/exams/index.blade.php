@@ -14,7 +14,7 @@
         	    </select> -->
                 <ul>
                     @foreach ($exams as $exam)
-                        <li><a href="/exams/{{$exam->id}}/questions">{{$exam->title}}</a></li>
+                        <li><a href="/exams/{{$exam->id}}">{{$exam->title}}</a></li>
                     @endforeach
                 </ul>
 		    @else
