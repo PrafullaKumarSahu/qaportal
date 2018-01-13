@@ -48,6 +48,7 @@ class ExamController extends Controller
             //Add flash message here and displa in view
             return redirect('/exams');
         }
+
     	$this->validate(request(), [
     		'title' => 'required|min:3|max:20',
     		'description' => 'required|max:250'
@@ -56,8 +57,9 @@ class ExamController extends Controller
     	Exam::create([
     		'title' => request('title'),
     		'description' => request('description'),
-    		'question_counts' => request('question_count'),
-    		'time' => request('time'),
+    		'question_counts' => request('question_count') ? request('question_count') : 20,
+    		'time' => request('time') ? request('time') : 20,
+            'status' => false
     	]);
 
     	return redirect('/exams');

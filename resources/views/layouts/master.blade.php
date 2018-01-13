@@ -31,6 +31,10 @@
 		    border: 1px solid #ddd;
 		    margin: 5px;
 		}
+		.exams a{
+			text-decoration: none;
+			font-weight: 600;
+		}
 	</style>
 </head>
 <body>

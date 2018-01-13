@@ -30,6 +30,10 @@ class QuestionController extends Controller
                 $questions = Question::paginate(5);
                 return view('questions.index')->with(['questions' => $questions, 'exam' => $exam]);    
             } else {
+                //Todo
+                //Use cache o store the questions and answers here
+                //Check if questions and answers are on cache use those
+                //or retrieve from database and store in cache
                 $questions = request()->session()->get('questions');
                 if ( empty($questions) ){
                    $questions = Question::all()->random(20);
@@ -102,7 +106,7 @@ class QuestionController extends Controller
                     ['exam_id', '=', $exam_id],
                     ['question_id', '=', $question_id]
                 ])->pluck('answer_id');
-        
+
         $user_answer = count($user_answer) ? $user_answer[0] : 0;    
         
         if ( request()->user()->hasRole('admin') ){
