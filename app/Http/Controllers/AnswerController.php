@@ -15,10 +15,15 @@ class AnswerController extends Controller
     public function store($exam_id, $question_id)
     {
 
-         //validate
-        //validate
-    	//Retrive all data
-    	// update user_question_answer_table
+        //Check if already attained
+        //if yes update
+        // $userQuestionAnswer = new UserQuestionAnswer();
+        // $userQuestionAnswer->user_id = Auth::id();
+        // $userQuestionAnswer->exam_id = $exam_id;
+        // $userQuestionAnswer->question_id = $question_id;
+        // $userQuestionAnswer->answer_id = request('answer');
+        // $userQuestionAnswer->save();
+        
     	UserQuestionAnswer::create([
     		'user_id' => Auth::id(),
     		'exam_id' => $exam_id,

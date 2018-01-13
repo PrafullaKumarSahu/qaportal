@@ -11,12 +11,12 @@
           @if ( count($options) )
               <div class="option-group">
                   @foreach ( $options as $option )
-                  <div class="checkbox">
+                  <div class="radio">
                       <label class="row option-label" for="option-{{$option->id}}">
                          @if ( $option->id == $user_answer )
-                              <input type="checkbox" checked name="answer" value="{{$option->id}}" id="option-{{$option->id}}"> {{ $option->description }}
+                              <input type="radio" checked name="answer" value="{{$option->id}}" id="option-{{$option->id}}"> {{ $option->description }}
                           @else
-                              <input type="checkbox" name="answer" value="{{$option->id}}" id="option-{{$option->id}}"> {{ $option->description }}
+                              <input type="radio" name="answer" value="{{$option->id}}" id="option-{{$option->id}}"> {{ $option->description }}
                           @endif
                       </label>
                   </div>

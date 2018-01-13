@@ -31,16 +31,16 @@
                 <div class="form-group row">
                     <div class="btn-group" data-toggle="buttons">
                       <label class="btn btn-primary">
-                        <input type="checkbox" name="answer" value="option_1" autocomplete="off"> Option 1
+                        <input type="radio" name="answer" value="option_1" autocomplete="off"> Option 1
                       </label>
                       <label class="btn btn-primary">
-                        <input type="checkbox" name="answer" value="option_2"  autocomplete="off"> Option 2
+                        <input type="radio" name="answer" value="option_2"  autocomplete="off"> Option 2
                       </label>
                       <label class="btn btn-primary">
-                        <input type="checkbox" name="answer" value="option_3"  autocomplete="off"> Option 3
+                        <input type="radio" name="answer" value="option_3"  autocomplete="off"> Option 3
                       </label>
                       <label class="btn btn-primary">
-                        <input type="checkbox" name="answer" value="option_4"  autocomplete="off"> Option 4
+                        <input type="radio" name="answer" value="option_4"  autocomplete="off"> Option 4
                       </label>
                     </div>
                 </div>

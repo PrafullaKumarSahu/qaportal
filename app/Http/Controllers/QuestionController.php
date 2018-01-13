@@ -102,9 +102,9 @@ class QuestionController extends Controller
                     ['exam_id', '=', $exam_id],
                     ['question_id', '=', $question_id]
                 ])->pluck('answer_id');
-
-        $user_answer = $user_answer[0];
-       
+        
+        $user_answer = count($user_answer) ? $user_answer[0] : 0;    
+        
         if ( request()->user()->hasRole('admin') ){
     	    return view('questions.show', compact(['question', 'exam', 'options']))->with('previous', $previous)->with('next', $next);;
         } else {
@@ -117,8 +117,15 @@ class QuestionController extends Controller
         $exam = Exam::find($exam_id);
         $question = Question::find($question_id);
         $options = $question->answers()->get();
-        
+
+        // // get previous question id
+        // $previous = Question::where('id', '<', $question->id)->max('id');
+
+        // // get next question id
+        // $next = Question::where('id', '>', $question->id)->min('id');
+
         if ( request()->user()->hasRole('admin') ){
+            // return view('questions.edit', compact(['exam', 'question', 'options']))->with('previous', $previous)->with('next', $next);
             return view('questions.edit', compact(['exam', 'question', 'options']));
         } else {
             return redirect('/login');
@@ -130,22 +137,44 @@ class QuestionController extends Controller
             $question = Question::find($question_id);
             $question->description = request('description');
             $question->save();
-            $option_ids = $question->answers()->pluck('id');
-            foreach ($option_ids as $option_id) {
-                $key = 'option_' . $option_id;
-                $options[$option_id] = request("$key");
-            }
-
-            foreach ($options as $key => $option) {
-                $answer = Answer::find($key);
-                $answer->description = $option;
-                $flag = 0;
-                if ($key == request('answer')){
-                    $flag = 1;
+            $answers = $question->answers()->get();
+           
+            if ( count($answers) != 0 ){
+                $option_ids = $answers->pluck('id');
+                foreach ($option_ids as $option_id) {
+                    $key = 'option_' . $option_id;
+                    $options[$option_id] = request("$key");
                 }
-                $answer->flag = $flag;
-                $answer->save();
+
+                foreach ($options as $key => $option) {
+                    $answer = Answer::find($key);
+                    $answer->description = $option;
+                    $flag = 0;
+                    if ($key == request('answer')){
+                        $flag = 1;
+                    }
+                    $answer->flag = $flag;
+                    $answer->save();
+                }
+            } else {
+                $options = request(['option_1', 'option_2', 'option_3', 'option_4']);
+                
+                foreach ($options as $key => $option) {
+                    $flag = 0;
+
+                    if ($key == request('answer')){
+                        $flag = 1;
+                    }
+                    
+                    $question->answers()->createMany([
+                        [
+                            'description' => $option,
+                            'flag' => $flag
+                        ]
+                    ]);
+                }
             }
+            
             return redirect()->back();
 
         } else {
