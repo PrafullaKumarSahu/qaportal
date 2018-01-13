@@ -21,7 +21,7 @@
 			    </div>
 
 			    <div class="form-group row">
-			      <label for="time" class="col-sm-2 col-form-label">Time</label>
+			      <label for="time" class="col-sm-2 col-form-label">Time (in minute)</label>
 			      <input type="number" id="time" class="form-control col-sm-2" placeholder="20" name="time" min="10" max="60" step="10">
 			    </div>
 			   
