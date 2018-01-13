@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use DB;
 use App\Exam;
 use App\Question;
+use App\Answer;
 
 class QuestionController extends Controller
 {
@@ -85,6 +86,7 @@ class QuestionController extends Controller
     }
 
     public function show($exam_id, $question_id){
+
     	$exam = Exam::find($exam_id);
     	$question = Question::find($question_id);
 
@@ -100,7 +102,7 @@ class QuestionController extends Controller
                     ['exam_id', '=', $exam_id],
                     ['question_id', '=', $question_id]
                 ])->pluck('answer_id');
-        
+
         $user_answer = $user_answer[0];
        
         if ( request()->user()->hasRole('admin') ){
@@ -111,22 +113,41 @@ class QuestionController extends Controller
     }
 
     //public function edit(Exam $exam, Question $question){
-    public function edit($question_id, $exam_id){
-        $exam = Exam::find($question_id);
+    public function edit($exam_id, $question_id){
+        $exam = Exam::find($exam_id);
         $question = Question::find($question_id);
         $options = $question->answers()->get();
-        //dd($question->description);
-        dd($options);
-
+        
         if ( request()->user()->hasRole('admin') ){
             return view('questions.edit', compact(['exam', 'question', 'options']));
         } else {
             return redirect('/login');
         }
     }
-    public function update(Question $question){
+    
+    public function update($exam_id, $question_id){
         if ( request()->user()->hasRole('admin') ){
-            //
+            $question = Question::find($question_id);
+            $question->description = request('description');
+            $question->save();
+            $option_ids = $question->answers()->pluck('id');
+            foreach ($option_ids as $option_id) {
+                $key = 'option_' . $option_id;
+                $options[$option_id] = request("$key");
+            }
+
+            foreach ($options as $key => $option) {
+                $answer = Answer::find($key);
+                $answer->description = $option;
+                $flag = 0;
+                if ($key == request('answer')){
+                    $flag = 1;
+                }
+                $answer->flag = $flag;
+                $answer->save();
+            }
+            return redirect()->back();
+
         } else {
             return redirect('/login');
         }

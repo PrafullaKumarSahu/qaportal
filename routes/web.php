@@ -32,7 +32,7 @@ Route::get('/exams/{exam}/questions/create', 'QuestionController@create');
 Route::post('/exams/{exam}/questions', 'QuestionController@store');
 Route::get('/exams/{exam}/questions/{question}', 'QuestionController@show');
 Route::get('/exams/{exam}/questions/{question}/edit', 'QuestionController@edit');
-Route::patch('/exams/{exam}/questions/{question}', 'QuestionController@update');
+Route::patch('/exams/{exam}/questions/{question}/update', 'QuestionController@update');
 Route::put('/exams/{exam}/questions/{question}', 'QuestionController@delete');
 
 Route::post('/exams/{exam}/questions/{question}/answers', 'AnswerController@store');
