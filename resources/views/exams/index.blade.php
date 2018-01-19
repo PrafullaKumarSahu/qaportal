@@ -17,7 +17,7 @@
 		        	<tbody>
 		        		@foreach ($exams as $exam)
 		        		    <tr>
-		        		    	<td>{{$exam->id}}</td>
+		        		    	<td>{{$loop->iteration}}</td>
 		        		    	<td>{{$exam->title}}</td>
 		        		    	<!-- Need to update URLs -->
 		        		    	<td><a href="/exams/{{$exam->id}}/questions"><i class="fa fa-pencil edit-icon" aria-hidden="true"></i></a></td>

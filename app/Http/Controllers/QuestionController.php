@@ -9,6 +9,7 @@ use DB;
 use App\Exam;
 use App\Question;
 use App\Answer;
+use App\UserExam;
 
 class QuestionController extends Controller
 {
@@ -26,17 +27,37 @@ class QuestionController extends Controller
         if (Auth::check()) {
         
             if( request()->user()->hasRole('admin') ){
-                $questions = Question::all();
+               // $questions = Question::all();
+                $questions = $exam->questions()->get();
                 $questions = Question::paginate(5);
                 return view('questions.index')->with(['questions' => $questions, 'exam' => $exam]);    
             } else {
                 //Todo
+                //asssociate exam with user
+                //1.Create UserExam model
+                //2.Associate User and Exam model with UserExam model
+                //3.Udate userexam tabe now 
                 //Use cache o store the questions and answers here
                 //Check if questions and answers are on cache use those
                 //or retrieve from database and store in cache
+
+                
+                // dd(UserExam::where([
+                //     ['user_id' => Auth::id()],
+                //     ['exam_id'] => $exam->id
+                // ])->count());
+                // $userExam = new UserExam();
+                // $userExam->user_id = Auth::id();
+                // $userExam->exam_id = $exam->id;
+                // $userExam->save();
+
+                // $exam->status = 'InProgress';
+                // $exam->save();
+
                 $questions = request()->session()->get('questions');
                 if ( empty($questions) ){
-                   $questions = Question::all()->random(20);
+                   // $questions = Question::all()->random(20);
+                   $questions = $exam->questions()->get()->random(20);
                    request()->session()->put('questions', $questions);
                 }
                 return view('students/questions/index')->with(['questions' => $questions, 'exam' => $exam]); 

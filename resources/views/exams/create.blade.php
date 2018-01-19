@@ -17,12 +17,12 @@
 			    </div>
 			    <div class="form-group row">
 			    	<label for="question_count" class="col-sm-3 col-form-label">Question Count</label>
-			      <input type="number" class="form-control col-sm-2" placeholder="20" id="question_count" name="question_count" min="10" max="50" step="5">
+			      <input type="number" class="form-control col-sm-2" value="20" id="question_count" name="question_count" min="10" max="50" step="5">
 			    </div>
 
 			    <div class="form-group row">
 			      <label for="time" class="col-sm-2 col-form-label">Time (in minute)</label>
-			      <input type="number" id="time" class="form-control col-sm-2" placeholder="20" name="time" min="10" max="60" step="10">
+			      <input type="number" id="time" class="form-control col-sm-2" value="20" name="time" min="10" max="60" step="10">
 			    </div>
 			   
 			    <button type="submit" name="submit" class="btn btn-primary">Submit</button>

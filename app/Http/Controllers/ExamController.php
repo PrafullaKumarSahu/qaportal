@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Exam;
+use App\UserExam;
 
 class ExamController extends Controller
 {
@@ -32,7 +33,25 @@ class ExamController extends Controller
         //return $exams;
     }
 
-    public function show(Exam $exam){
+    public function show(Exam $exam)
+    {
+        //Todo
+        //Use cache to store the questions and answers here
+        //Check if questions and answers are on cache use those
+        //or retrieve from database and store in cache
+
+        if ( !UserExam::where([
+            'user_id' => Auth::id(),
+            'exam_id' => $exam->id
+        ])->count()){
+            $userExam = new UserExam();
+            $userExam->user_id = Auth::id();
+            $userExam->exam_id = $exam->id;
+            $userExam->save();
+
+            $exam->status = 'InProgress';
+            $exam->save();
+        }
         
         $questions = request()->session()->get('questions');
         if ( empty($questions) ){
