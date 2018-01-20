@@ -47,10 +47,8 @@ class ExamController extends Controller
             $userExam = new UserExam();
             $userExam->user_id = Auth::id();
             $userExam->exam_id = $exam->id;
+            $userExam->status = 'InProgress';
             $userExam->save();
-
-            $exam->status = 'InProgress';
-            $exam->save();
         }
         
         $questions = request()->session()->get('questions');
